@@ -4,9 +4,9 @@ import colors from '../../../constants/colors'
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.gray[700],
+    backgroundColor: colors.gray[600],
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
   },
   text: {
     color: colors.purple,
