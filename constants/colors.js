@@ -12,7 +12,8 @@ const colors = {
   purpleDark: '#5E60CE',
   blue: '#4EA8DE',
   blueDark: '#1E6F9F',
-  Danger: '#E25858',
+  danger: '#E25858',
+  white: '#FFFFFF',
 }
 
 export default colors

@@ -8,9 +8,4 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-start',
   },
-  text: {
-    color: colors.purple,
-    fontSize: 24,
-    fontWeight: 'bold',
-  },
 })
