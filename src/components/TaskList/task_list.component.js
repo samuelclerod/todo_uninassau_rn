@@ -1,19 +1,17 @@
-import { Text, View } from 'react-native'
-import { StyleSheet } from 'react-native'
+import { TaskItem } from './TaskItem/task_item.component'
+import { FlatList, View } from 'react-native'
 
-const whiteTextStyle = StyleSheet.create({
-  text: {
-    color: 'white',
-  },
-})
-
-const TaskItem = ({ task }) => {
+export const TaskList = ({ tasks, onDelete, onCheck }) => {
   return (
-    <View>
-      <Text style={whiteTextStyle.text}>{task.description}</Text>
+    <View style={{ width: '100%', paddingHorizontal: 16 }}>
+      <FlatList
+        data={tasks}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <TaskItem onCheck={onCheck} onDelete={onDelete} task={item} />
+        )}
+      />
     </View>
   )
 }
-
-export const TaskList = ({ tasks }) =>
-  tasks.map((task) => <TaskItem key={task.id} task={task} />)
+// tasks.map((task) => <TaskItem key={task.id} task={task} />)
