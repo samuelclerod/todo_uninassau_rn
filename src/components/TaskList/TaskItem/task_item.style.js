@@ -19,4 +19,10 @@ export const styles = StyleSheet.create({
     color: colors.gray[100],
     fontSize: 14,
   },
+  checkedText: {
+    flex: 1,
+    color: colors.gray[300],
+    fontSize: 14,
+    textDecorationLine: 'line-through',
+  },
 })

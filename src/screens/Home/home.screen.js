@@ -5,7 +5,7 @@ import { Header } from '../../components/Header/header.component'
 import { Form } from '../../components/Form/form.component'
 import { EmptyState } from '../../components/EmptyState/empty_state.component'
 import { TaskList } from '../../components/TaskList/task_list.component'
-import { list } from '../../data/task_repository'
+import { list, insert, remove, update } from '../../data/task_repository'
 
 export const Home = (props) => {
   const [tasks, setTasks] = useState([])
@@ -17,10 +17,10 @@ export const Home = (props) => {
 
   const retrieveTasks = async () => {
     try {
-      //wait 1s to show the loading
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-      const data = await list()
-      setTasks(data)
+      const tasks = await list()
+      if (tasks) {
+        setTasks(tasks)
+      }
     } catch (error) {
       Alert.alert(
         'Error',
@@ -32,7 +32,8 @@ export const Home = (props) => {
     }
   }
 
-  const addTask = (task) => {
+  const addTask = async (task) => {
+    console.log({ tasks })
     const found = tasks.find((t) => (t.description = task.description))
     if (found) {
       return Alert.alert(
@@ -41,8 +42,24 @@ export const Home = (props) => {
       )
     }
 
-    const newTasks = [...tasks, task]
-    setTasks(newTasks)
+    try {
+      const newTasks = [...tasks, task]
+      await insert(task)
+      setTasks(newTasks)
+    } catch (error) {
+      return Alert.alert('Erro', 'Não foi possível registrar a tarefa.')
+    }
+  }
+
+  const confirmRemove = async (id) => {
+    try {
+      const newTasks = [...tasks].filter((task) => task.id != id)
+      await remove(id)
+      setTasks(newTasks)
+    } catch (error) {
+      console.log({ error })
+      return Alert.alert('Erro', 'Não foi possível remover a tarefa.')
+    }
   }
 
   const removeTask = (id) => {
@@ -55,17 +72,14 @@ export const Home = (props) => {
       [
         {
           text: 'sim',
-          onPress: () => {
-            const newTasks = [...tasks].filter((task) => task.id != id)
-            setTasks(newTasks)
-          },
+          onPress: () => confirmRemove(id),
         },
         { text: 'nao', style: 'cancel' },
       ]
     )
   }
 
-  const handleCheck = (id) => {
+  const handleCheck = async (id) => {
     const newTasks = [...tasks]
 
     task = newTasks.find((t) => t.id == id)
@@ -74,7 +88,12 @@ export const Home = (props) => {
     }
     task.completed = !task.completed
 
-    setTasks(newTasks)
+    try {
+      await update(task)
+      setTasks(newTasks)
+    } catch (error) {
+      return Alert.alert('Erro', 'Não foi possível atualizar a tarefa.')
+    }
   }
 
   if (loading)
@@ -82,7 +101,9 @@ export const Home = (props) => {
       <View style={styles.container}>
         <Header />
 
-        <Text>Carregando...</Text>
+        <View style={styles.loadingContainer}>
+          <Text style={styles.loadingText}>Carregando...</Text>
+        </View>
       </View>
     )
 

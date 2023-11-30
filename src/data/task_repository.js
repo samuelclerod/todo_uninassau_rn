@@ -28,7 +28,8 @@ export const update = async (task) => {
 
 export const list = async () => {
   try {
-    await Storage.list()
+    const tasks = await Storage.list()
+    return tasks
   } catch (error) {
     throw new Error('You can not get the list of tasks')
   }

@@ -8,7 +8,7 @@ const insert = async (task) => {
 
 const remove = async (id) => {
   const data = await getData()
-  data.tasks = data.tasks.filter((tasks) => task.id != id)
+  data.tasks = data.tasks.filter((task) => task.id != id)
   await storeData(data)
 }
 
@@ -16,6 +16,11 @@ const update = async (task) => {
   const data = await getData()
   data.tasks = data.tasks.map((t) => (t.id == task.id ? task : t))
   await storeData(data)
+}
+
+const list = async () => {
+  const { tasks } = await getData()
+  return tasks || []
 }
 
 const storeData = async (value) => {
@@ -26,12 +31,13 @@ const storeData = async (value) => {
 const getData = async () => {
   const empty = { tasks: [] }
   const jsonValue = await AsyncStorage.getItem('task-app')
-  return jsonValue != null ? JSON.parse(jsonValue) : empty
+  const data = jsonValue ? JSON.parse(jsonValue) : empty
+  return data
 }
 
 export default {
   insert,
   remove,
   update,
-  list: getData,
+  list,
 }

@@ -4,6 +4,8 @@ import { styles } from './task_item.style'
 export const TaskItem = ({ task, onCheck, onDelete }) => {
   const { completed, description, id } = task
 
+  const textStyle = completed ? styles.checkedText : styles.text
+
   const radioImage = completed
     ? require('../../../../assets/icons/checked.png')
     : require('../../../../assets/icons/unchecked.png')
@@ -24,7 +26,7 @@ export const TaskItem = ({ task, onCheck, onDelete }) => {
         <Image source={radioImage} />
       </TouchableOpacity>
 
-      <Text style={styles.text}>{description}</Text>
+      <Text style={textStyle}>{description}</Text>
 
       <TouchableOpacity onPress={handleRemove}>
         <Image source={trashImage} />

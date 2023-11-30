@@ -8,4 +8,13 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-start',
   },
+  loadingText: {
+    color: colors.gray[200],
+    fontSize: 16,
+  },
+  loadingContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 })
